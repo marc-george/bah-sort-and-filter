@@ -1,0 +1,58 @@
+$inuit-enable-margins: true;
+$inuit-enable-paddings: true;
+$inuit-enable-margins--none: true;
+$inuit-enable-margins--tiny: true;
+$inuit-enable-margins--small: true;
+$inuit-enable-margins--large: true;
+$inuit-enable-margins--huge: true;
+$inuit-enable-margins--negative: true;
+$inuit-enable-margins--negative-tiny: true;
+$inuit-enable-margins--negative-small: true;
+$inuit-enable-margins--negative-large: true;
+$inuit-enable-margins--negative-huge: true;
+$inuit-enable-paddings--none: true;
+$inuit-enable-paddings--tiny: true;
+$inuit-enable-paddings--small: true;
+$inuit-enable-paddings--large: true;
+$inuit-enable-paddings--huge: true;
+@import 'px-spacing-design/_trumps.spacing.scss';
+
+@import "px-typography-design/_base.typography.scss";
+@import 'px-flexbox-design/_base.flexbox.scss';
+
+@import "px-headings-design/_base.headings.scss";
+
+@import "px-colors-design/_settings.colors.scss";
+
+@import "px-widths-design/_trumps.widths.scss";
+
+@import 'px-actionable-text-icons-design/_objects.actionable.scss';
+
+[class*='col-'] {
+  border: 0;
+  background-color: $gray1;
+}
+
+.font-size-15 {
+  font-size: 15px;
+}
+
+.row {
+  background-color: $white;
+}
+
+.sort-options-container {
+  border: 1px solid $gray6;
+  border-top: none;
+  background-color: $white;
+}
+
+.sort-option:hover {
+  color: $select-blue-hover;
+  cursor: pointer;
+}
+
+.sort-option-selected {
+  color: $select-blue-default;
+  font-weight: bold;
+}

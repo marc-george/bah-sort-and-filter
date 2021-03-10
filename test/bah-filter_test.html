@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+				content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+	<title>bah-filter test</title>
+
+	<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="../../web-component-tester/browser.js"></script>
+
+	<link rel="import" href="../bah-filter.html">
+</head>
+<body>
+<test-fixture id="basic">
+	<template>
+		<bah-filter></bah-filter>
+	</template>
+</test-fixture>
+
+<script>
+  describe('bah-filter', function() {
+    it('should instantiate the element', function() {
+      var element = fixture('basic');
+      assert.equal(element.is, 'bah-filter');
+    });
+  });
+
+  describe('_resetDisplayedItems', function() {
+    var basic;
+
+    beforeEach(function() {
+      basic = fixture('basic');
+    });
+    afterEach(function() {
+      basic = '';
+    });
+
+    it('should set _displayItems with proper values when items array is passed', function() {
+      var items = [
+        {
+          key: 'foo',
+          val: 'foo val',
+          selected: false
+        },
+        {
+          key: 'bar',
+          val: 'bar val',
+          selected: true
+        },
+        {
+          key: 'car',
+          val: 'car val',
+          selected: false
+        }
+      ];
+      basic._resetDisplayedItems(items);
+
+      // not able to unit test debounce, so just checking
+      // if _displayItems property has been reset
+      assert.strictEqual(basic._displayItems.length, 0);
+    });
+  });
+
+  describe('cancelChanges', function() {
+    var basic;
+
+    beforeEach(function() {
+      basic = fixture('basic');
+    });
+    afterEach(function() {
+      basic = '';
+    });
+
+    it('should revert all the changes and hide filter', function() {
+      sinon.spy(basic, '_resetDisplayedItems');
+      var items = [
+        {
+          key: 'foo',
+          val: 'foo val',
+          selected: false
+        },
+        {
+          key: 'bar',
+          val: 'bar val',
+          selected: true
+        },
+        {
+          key: 'car',
+          val: 'car val',
+          selected: false
+        }
+      ];
+      basic.filterItems = items;
+      basic.cancelChanges();
+
+      assert(basic._resetDisplayedItems.calledOnce);
+      assert.isNotOk(basic.showFilter);
+      basic._resetDisplayedItems.restore();
+    });
+  });
+
+  describe('clearFilters', function() {
+    var basic;
+
+    beforeEach(function() {
+      basic = fixture('basic');
+    });
+    afterEach(function() {
+      basic = '';
+    });
+
+    it('should clear all the selection for _displayItems', function() {
+      sinon.spy(basic, '_resetDisplayedItems');
+      var items = [
+        {
+          name: 'foo',
+          items: [
+            {
+              key: 'foo key',
+              val: 'foo val',
+              selected: true
+            }
+          ]
+        }
+      ];
+      basic._displayItems = items;
+      basic.clearFilters();
+
+      assert(basic._resetDisplayedItems.calledOnce);
+    });
+  });
+
+  describe('filterApplied, _setFilterItems and _handleFilterItemsChange', function() {
+    var basic;
+
+    beforeEach(function() {
+      basic = fixture('basic');
+    });
+    afterEach(function() {
+      basic = '';
+    });
+
+    it('should set filterItems, hide the filter display and fire bah-filter-changed event', function() {
+      var items = [
+        {
+          key: 'foo',
+          val: 'foo val',
+          selected: false
+        },
+        {
+          key: 'bar',
+          val: 'bar val',
+          selected: true
+        },
+        {
+          key: 'car',
+          val: 'car val',
+          selected: false
+        }
+      ];
+      basic._displayItems = items;
+      basic.addEventListener('bah-filter-changed', function(event) {
+				assert.isNotNull(event);
+				assert.strictEqual(event.detail.filterItems, basic._displayItems);
+				assert.notEqual(event.detail.filterItems, []);
+      });
+      basic.filterApplied();
+      assert.strictEqual(basic.filterItems[0].key, 'foo');
+      assert.strictEqual(basic.filterItems[1].key, 'bar');
+      assert.strictEqual(basic.filterItems[2].key, 'car');
+      assert.isNotOk(basic.showFilter);
+    });
+  });
+
+  describe('_setSelectedItems', function() {
+    var basic;
+
+    beforeEach(function() {
+      basic = fixture('basic');
+    });
+    afterEach(function() {
+      basic = '';
+    });
+
+    it('should set selected items array', function() {
+      var items = [
+        {
+          name: 'foo',
+          items: [
+            {
+              key: 'foo',
+              val: 'bar',
+              selected: true
+            }
+          ]
+        },
+        {
+          name: 'foo 2',
+          items: [
+            {
+              key: 'foo 2',
+              val: 'bar 2',
+              selected: false
+            }
+          ]
+        }
+      ];
+      basic._displayItems = items;
+      basic._setSelectedItems();
+      assert.strictEqual(basic._selectedItems.length, 1);
+      assert.deepEqual(basic._selectedItems[0], basic._displayItems[0]);
+    });
+  });
+</script>
+</body>
+</html>

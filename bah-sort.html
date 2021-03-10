@@ -1,0 +1,34 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../px-dropdown/px-dropdown.html">
+<link rel="import" href="../px-polymer-font-awesome/px-polymer-font-awesome.html"/>
+<link rel="import" href="../px-action-menu/px-action-menu.html">
+<link rel="import" href="../bootstrap-sass-grid/index.html">
+
+<link rel="import" href="css/bah-sort-styles.html">
+
+<!--
+`bah-sort`
+Child component used internally for displaying sort options (Internal use)
+
+@demo demo/index.html 
+-->
+
+<dom-module id="bah-sort">
+	<template>
+		<style include="bah-sort-styles"></style>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-2 sort-options-container">
+					<div class="flex flex--col flex--top flex--middle">
+						<template is="dom-repeat" items="{{options}}">
+							<div on-tap="_sortSelectionChanged" class="sort-option">
+								<span class$={{_getStyleForItem(item)}}>{{item.val}}</span>
+							</div>
+						</template>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+	<script type="text/javascript" src="js/bah-sort.js"></script>
+</dom-module>

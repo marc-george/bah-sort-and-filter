@@ -1,0 +1,92 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="./bah-group-checkbox.html">
+<link rel="import" href="../bootstrap-sass-grid/index.html">
+<link rel="import" href="css/bah-filter-styles.html">
+
+<link rel="import" href="../px-rangepicker/px-rangepicker.html"/>
+<link rel="import" href="../iron-input/iron-input.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../px-polymer-font-awesome/px-polymer-font-awesome.html"/>
+
+<!--
+`bah-filter`
+Child component displaying free text, date search and checkboxes groups based on provided inputs (Internal use)
+
+@demo demo/index.html 
+-->
+<dom-module id="bah-filter">
+	<template>
+		<style include="bah-filter-styles"></style>
+			<div class="container-fluid">
+				<div class="row">
+
+					<template is="dom-if" if="{{_textOrDateSearchActive(showTextSearch, showDateSearch)}}">
+						<!-- Free text, date search -->
+						<div class="col-md-3 no-background-no-border">
+							<template is="dom-if" if="{{showTextSearch}}">
+								<!-- Search box -->
+								<div class="u-mt++ u-mr++">
+									<input
+											is="iron-input"
+											class="text-input input--search input--regular"
+											type="text"
+											bind-value="{{searchText}}">
+								</div>
+							</template>
+
+							<template is="dom-if" if="{{showDateSearch}}">
+								<!-- Date time picker-->
+								<div class="u-mt++">
+									
+									<label for="datetime-picker">Date Created</label>
+									<px-rangepicker 
+										id="datetime-picker"
+										block-future-dates="true"
+										date-format="MM/DD/YYYY"
+										hide-time="true"
+										range="{{timeRange}}"
+										show-buttons="true" 				
+										show-time-zone="none" 								
+										time-format="HH:mm:ss"				
+										time-zone="UTC">
+									</px-rangepicker>
+								</div>
+							</template>
+						</div>
+					</template>
+					
+					<!-- Checkbox Groups -->
+					<template
+						is="dom-repeat"
+						items="{{_displayItems}}"
+						as="item">
+						<div class="col-md-3 no-background-no-border">
+							<bah-group-checkbox
+								title="{{item.name}}"
+								show-search="{{item.showSearch}}"
+								single-selection="{{item.singleSelection}}"
+								maintain-order-for-items="{{item.maintainOrderForItems}}"
+								items="{{item.items}}">
+							</bah-group-checkbox>
+						</div>
+					</template>
+				</div>
+			</div>
+
+		<!-- Buttons -->
+		<div class="container-fluid">
+			<div class="u-mt-- layout layout-middle">
+				<div id="clearFilterButton" on-tap="clearFilters" class="layout__item u-1/4">
+					<button class="btn btn--tertiary">Clear Filters</button>
+				</div>
+				<div class="layout__item u-1/4"></div>
+				<div class="layout layout__item layout--right u-pr++ u-mr++ u-pb++">
+					<button class="btn" on-tap="cancelChanges">Cancel</button>
+					<button class="btn btn--primary" on-tap="filterApplied">Filter</button>
+				</div>
+			</div>
+		</div>
+	</template>
+
+	<script type="text/javascript" src="js/bah-filter.js"></script>
+</dom-module>

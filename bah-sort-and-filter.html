@@ -1,0 +1,118 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../common-imports/lodash.html">
+<link rel="import" href="../bootstrap-sass-grid/index.html">
+
+<!-- BAH components -->
+<link rel="import" href="./bah-sort.html">
+<link rel="import" href="./bah-filter.html">
+
+<!-- Styles -->
+<link rel="import" href="css/bah-sort-and-filter-styles.html">
+
+<!--
+`bah-sort-and-filter`
+Parent component exposed for direct (external) use to have sort and filter functionality
+
+@demo demo/index.html
+-->
+<dom-module id="bah-sort-and-filter">
+	<template>
+		<style include="bah-sort-and-filter-styles"></style>
+		<div id="container-div" class="container-fluid">
+			<div class="row div--border equal">
+				<!-- Sort Button -->
+				<template is="dom-if" if="{{showSortOptionsInHeader}}">
+					<div id="sortOption" class="col-md-3 col-sm-3 div--right-border user-option"
+							 on-tap="_toggleSortOptions">
+						<div class="div--align-content-center">
+						<span id="sortText" class="actionbar-text weight--normal font-size-15">
+							<iron-icon id="sortIcon"
+												 class="wrapper-icon"
+												 icon="fa:fa-sort">
+							</iron-icon>
+							Sort: {{_selectedSortValue}}
+							<iron-icon id="sortAngleIcon"
+												 class="wrapper-icon"
+												 icon="fa:fa-angle-down">
+							</iron-icon>
+						</span>
+						</div>
+					</div>
+				</template>
+
+				<!-- Filter Button -->
+				<div id="filterOption" class="col-md-2 col-sm-2 div--right-border user-option"
+						 on-tap="_toggleShowFilters">
+					<div class="div--align-content-center">
+						<span id="filterText" class="actionbar-text weight--normal font-size-15">
+							<iron-icon id="filterIcon"
+												 class="wrapper-icon"
+												 icon="fa:fa-filter">
+						  </iron-icon>
+							Filter
+							<iron-icon id="filterAngleIcon"
+												 class="wrapper-icon"
+												 icon="fa:fa-angle-down">
+							</iron-icon>
+						</span>
+					</div>
+				</div>
+
+				<!-- View -->
+				<template is="dom-if" if="{{showViewToggleButton}}">
+					<div id="viewToggleBtn" class="col-md-2 col-sm-2 div--left-border user-option"
+							on-tap="toggleSelectedView">
+						<div class="div--align-content-center">
+						<span id="view-type-toggle"
+									class="actionbar-text weight--normal font-size-15">
+							<span class="u-mr--"><iron-icon id="selectedViewIcon"
+																							icon="{{selectedViewIcon}}"></iron-icon></span>
+							{{selectedView}}
+						</span>
+						</div>
+					</div>
+				</template>
+			</div>
+		</div>
+
+		<!-- Sort -->
+		<template is="dom-if" if="{{_showSortOptions}}">
+			<bah-sort
+					options="{{sortOptions}}">
+			</bah-sort>
+
+		</template>
+
+		<!-- Filter -->
+		<template is="dom-if" if="{{_showFilters}}">
+			<bah-filter
+					id="bahFilter"
+					filter-items="{{filterItems}}"
+					show-filter="{{_showFilters}}"
+					show-text-search="{{showTextSearch}}"
+					show-date-search="{{showDateSearch}}">
+			</bah-filter>
+		</template>
+
+		<!-- Active Filters -->
+		<template is="dom-if" if="{{_showActiveFilterLabels}}">
+			<div id="activeFiltersDiv"
+					 class="u-pt+ u-pb+ div-white-background layout layout--tiny layout--middle">
+				<div class="layout__item u-mt">
+					<template is="dom-if" if="{{_showActiveFilterLabels}}">
+						<span class="text-color--grey u-p++">Filtering by:</span>
+					</template>
+					<template is="dom-repeat" items="{{_selectedItems}}" as="item">
+							<span class="actionable-filter active-filter-span" on-tap="clearActiveFilter">{{item.val}}
+							<iron-icon class="actionable-filter" icon="fa:fa-times"></iron-icon>
+						</span>
+					</template>
+					<template is="dom-if" if="{{_showActiveFilterLabels}}">
+						<span id="clear-filter-span" class="actionable u-p" on-tap="clearAllActiveFilters">Clear Filters</span>
+					</template>
+				</div>
+			</div>
+		</template>
+	</template>
+	<script type="text/javascript" src="js/bah-sort-and-filter.js"></script>
+</dom-module>

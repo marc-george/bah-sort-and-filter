@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+				content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+	<title>bah-sort-and-filter demo</title>
+
+	<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+	<link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+	<link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+	<link rel="import" href="../bah-sort-and-filter.html">
+
+	<style is="custom-style" include="demo-pages-shared-styles">
+	</style>
+</head>
+<body>
+<div class="vertical-section-container">
+	<h3>Basic bah-sort-and-filter demo</h3>
+	<demo-snippet>
+		<template>
+			<bah-sort-and-filter
+					filter-items='[
+													{
+														"name": "Alert Types",
+														"showSearch": true,
+														"singleSelection": false,
+														"items": [
+															{
+																"key": "dummy",
+																"val": "Control Systems",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "Defect",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "EHS Violation",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "Equipment",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "Facilities",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "Dummy 1",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "Dummy 2",
+																"selected": false
+															}
+														]
+													},
+													{
+														"name": "Alert SLAs",
+														"showSearch": true,
+														"singleSelection": false,
+														"maintainOrderForItems": true,
+														"items": [
+															{
+																"key": "dummy",
+																"val": "SLA 3",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "SLA 2",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "SLA 1",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "SLA 4",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "SLA 5",
+																"selected": false
+															}
+														]
+													},
+													{
+														"name": "Alert Statuses",
+														"showSearch": false,
+														"singleSelection": false,
+														"items": [
+															{
+																"key": "dummy",
+																"val": "Active",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "Acknowledged",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "Resolved in last 24 hours",
+																"selected": false
+															}
+														]
+													},
+													{
+														"name": "Dummy Radio Buttons",
+														"showSearch": false,
+														"singleSelection": true,
+														"items": [
+															{
+																"key": "dummy 1",
+																"val": "Dummy1",
+																"selected": false
+															},
+															{
+																"key": "dummy 2",
+																"val": "Dummy2",
+																"selected": true
+															},
+															{
+																"key": "dummy 3",
+																"val": "Dummy3",
+																"selected": false
+															}
+														]
+													}
+												]'
+					sort-options='[{"key": "1","val": "Newest First","selected": true},{"key": "2","val": "Oldest First","selected": false},{"key": "3","val": "Highest SLA First","selected": false},{"key": "4","val": "Lowest SLA First","selected": false},{"key": "5","val": "Location","selected": false},{"key": "6","val": "Alert Type","selected": false}]'
+					show-free-form-search=false
+					detailed-view="Detailed View"
+					detailed-view-icon="fa:fa-th-large"
+					summary-view="Summary View"
+					summary-view-icon="fa:fa-terminal"
+					selected-view="Detailed View"
+					selected-view-icon="fa:fa-th-large"
+			></bah-sort-and-filter>
+		</template>
+	</demo-snippet>
+	<demo-snippet>
+		<template>
+			<bah-sort-and-filter
+					filter-items='[
+													{
+														"name": "Alert Types",
+														"showSearch": true,
+														"items": [
+															{
+																"key": "dummy",
+																"val": "Control Systems",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "Defect",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "EHS Violation",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "Equipment",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "Facilities",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "Dummy 1",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "Dummy 2",
+																"selected": false
+															}
+														]
+													},
+													{
+														"name": "Alert SLAs",
+														"showSearch": true,
+														"items": [
+															{
+																"key": "dummy",
+																"val": "SLA 1",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "SLA 2",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "SLA 3",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "SLA 4",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "SLA 5",
+																"selected": false
+															}
+														]
+													},
+													{
+														"name": "Alert Statuses",
+														"showSearch": false,
+														"items": [
+															{
+																"key": "dummy",
+																"val": "Active",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "Acknowledged",
+																"selected": false
+															},
+															{
+																"key": "dummy",
+																"val": "Resolved in last 24 hours",
+																"selected": false
+															}
+														]
+													}
+												]'
+					sort-options='[{"key": "1","val": "Newest First","selected": true},{"key": "2","val": "Oldest First","selected": false},{"key": "3","val": "Highest SLA First","selected": false},{"key": "4","val": "Lowest SLA First","selected": false},{"key": "5","val": "Location","selected": false},{"key": "6","val": "Alert Type","selected": false}]'
+					show-free-form-search="true"
+					detailed-view="Card View"
+					summary-view="Board View"
+					selected-view="Card View"
+			></bah-sort-and-filter>
+		</template>
+	</demo-snippet>
+</div>
+</body>
+</html>

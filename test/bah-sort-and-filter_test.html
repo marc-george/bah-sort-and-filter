@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+				content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+	<title>bah-sort-and-filter test</title>
+
+	<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="../../web-component-tester/browser.js"></script>
+
+	<link rel="import" href="../bah-sort-and-filter.html">
+</head>
+<body>
+<test-fixture id="basic">
+	<template>
+		<bah-sort-and-filter></bah-sort-and-filter>
+	</template>
+</test-fixture>
+
+<script>
+  describe('bah-sort-and-filter', function() {
+    it('should instantiage the element', function() {
+      var element = fixture('basic');
+      assert.equal(element.is, 'bah-sort-and-filter');
+    });
+  });
+
+  describe('clearActiveFilter', function() {
+    var basic;
+    beforeEach(function() {
+      basic = fixture('basic');
+    });
+    afterEach(function() {
+      basic = '';
+    });
+
+    it('should set selected property to false', function() {
+      var testEvent = {
+        model: {
+          '__data__': {
+            item: {
+              filterItemName: 'dummy',
+              val: 'bar'
+            }
+          }
+        }
+      };
+
+      var testFilterItems = [{
+        name: 'dummy',
+        items: [{
+          key: 'foo',
+          val: 'bar',
+          selected: true
+        }, {
+          key: 'foo 2',
+          val: 'bar 2',
+          selected: false
+        }, {
+          key: 'foo 3',
+          val: 'bar 3',
+          selected: false
+        }]
+      }];
+
+      basic.filterItems = testFilterItems;
+      basic.clearActiveFilter(testEvent);
+      assert.isNotOk(basic.filterItems[0].items[0].selected);
+    });
+  });
+
+  describe('_toggleSortOptions', function() {
+    var basic;
+    beforeEach(function() {
+      basic = fixture('basic');
+    });
+    afterEach(function() {
+      basic = '';
+    });
+
+    it('should set _showSortOptions to true', function() {
+      basic._showSortOptions = false;
+      basic._toggleSortOptions();
+      assert.isOk(basic._showSortOptions);
+      assert.isNotOk(basic._showFilters);
+    });
+
+    it('should set _showSortOptions to false', function() {
+      basic._showSortOptions = true;
+      basic._toggleSortOptions();
+      assert.isNotOk(basic._showSortOptions);
+      assert.isNotOk(basic._showFilters);
+    });
+  });
+
+  describe('clearAllActiveFilters', function() {
+    var basic;
+    beforeEach(function() {
+      basic = fixture('basic');
+    });
+    afterEach(function() {
+      basic = '';
+    });
+
+    it('should set selected property to false for all items', function() {
+      var testFilterItems = [{
+        name: 'dummy',
+        items: [
+          {
+            key: 'foo',
+            val: 'bar',
+            selected: true
+          }, {
+            key: 'foo 2',
+            val: 'bar 2',
+            selected: true
+          }, {
+            key: 'foo 3',
+            val: 'bar 3',
+            selected: false
+          }
+        ]
+      }, {
+        name: 'dummy 2',
+        items: [
+          {
+            key: 'foo',
+            val: 'bar',
+            selected: true
+          }, {
+            key: 'foo 2',
+            val: 'bar 2',
+            selected: true
+          }, {
+            key: 'foo 3',
+            val: 'bar 3',
+            selected: false
+          }]
+      }];
+
+      basic.filterItems = testFilterItems;
+      basic.clearAllActiveFilters();
+      assert.isNotOk(basic.filterItems[0].items[0].selected);
+      assert.isNotOk(basic.filterItems[0].items[1].selected);
+      assert.isNotOk(basic.filterItems[0].items[2].selected);
+      assert.isNotOk(basic.filterItems[1].items[0].selected);
+      assert.isNotOk(basic.filterItems[1].items[1].selected);
+      assert.isNotOk(basic.filterItems[1].items[2].selected);
+    });
+  });
+
+  describe('computeSelectedSortValue', function() {
+    var basic;
+    beforeEach(function() {
+      basic = fixture('basic');
+    });
+    afterEach(function() {
+      basic = '';
+    });
+
+    it('should return selected sort value when sort options are passed', function() {
+      var testOptions = [{
+        key: 'foo',
+        val: 'bar',
+        selected: false
+      }, {
+        key: 'foo 2',
+        val: 'bar 2',
+        selected: true
+      }];
+      var computeVal = basic.computeSelectedSortValue(testOptions);
+      assert.strictEqual(computeVal, 'bar 2');
+    });
+
+    it('should return undefined value when no sort options are passed', function() {
+      var computeVal = basic.computeSelectedSortValue();
+      assert.isUndefined(computeVal);
+    });
+
+    it('should return undefined value when sort options are passed and no option is selected', function() {
+      var testOptions = [{
+        key: 'foo',
+        val: 'bar',
+        selected: false
+      }, {
+        key: 'foo 2',
+        val: 'bar 2',
+        selected: false
+      }];
+      var computeVal = basic.computeSelectedSortValue(testOptions);
+      assert.isUndefined(computeVal);
+    });
+  });
+
+  describe('handleFilterChange', function() {
+    var basic;
+    beforeEach(function() {
+      basic = fixture('basic');
+    });
+    afterEach(function() {
+      basic = '';
+    });
+
+    it('should set _setSelectedItems to selectedItems passed in event', function() {
+      var testEvent = {
+        detail: {
+          selectedItems: {
+            foo: 'bar'
+          }
+        }
+      };
+      sinon.spy(basic, '_setSelectedItems');
+      basic.handleFilterChange(testEvent);
+      assert(basic._setSelectedItems.calledOnce);
+      basic._setSelectedItems.restore();
+    });
+  });
+
+  describe('handleShowFiltersChange', function() {
+    var basic;
+    beforeEach(function() {
+      basic = fixture('basic');
+    });
+    afterEach(function() {
+      basic = '';
+    });
+
+    it('should set proper styling based on _showFilters property is set to true', function() {
+      basic._showFilters = true;
+      basic.handleShowFiltersChange();
+      assert.equal(basic.$.filterAngleIcon.icon, 'fa:fa-angle-up');
+    });
+
+    it('should set proper styling based on _showFilters property is set to false', function() {
+      basic._selectedItems = [{
+        name: 'dummy',
+        key: 'dummy key',
+        items: [{
+          key: 'foo',
+          val: 'bar',
+          selected: false
+        }]
+      }];
+      basic._showFilters = false;
+      basic.handleShowFiltersChange();
+      assert.equal(basic.$.filterAngleIcon.icon, 'fa:fa-angle-down');
+    });
+  });
+
+  describe('handleShowSortOptionsChange', function() {
+    var basic;
+    beforeEach(function() {
+      basic = fixture('basic');
+    });
+    afterEach(function() {
+      basic = '';
+    });
+
+    it('should set proper styling based on _showSortOptions property is set to true', function() {
+      basic._showSortOptions = true;
+      basic.handleShowFiltersChange();
+      assert.equal(basic.$.sortAngleIcon.icon, 'fa:fa-angle-up');
+    });
+
+    it('should set proper styling based on _showSortOptions property is set to false', function() {
+      basic._selectedItems = [{
+        name: 'dummy',
+        key: 'dummy key',
+        items: [{
+          key: 'foo',
+          val: 'bar',
+          selected: false
+        }]
+      }];
+      basic._showSortOptions = false;
+      basic.handleShowSortOptionsChange();
+      assert.equal(basic.$.sortAngleIcon.icon, 'fa:fa-angle-down');
+    });
+  });
+
+  describe('_setSelectedItems', function() {
+    var basic;
+    beforeEach(function() {
+      basic = fixture('basic');
+    });
+    afterEach(function() {
+      basic = '';
+    });
+
+    it('should set _showActiveFilterLabels to true when selectedItems are passed', function() {
+      var testSelectedItems = [{
+        name: 'dummy',
+        key: 'dummy key',
+        items: [{
+          key: 'foo',
+          val: 'bar',
+          selected: true
+        }]
+      }];
+      var expectedItem = [{
+        filterItemName: 'dummy',
+				val: 'bar'
+			}];
+      basic._showActiveFilterLabels = false;
+      basic._setSelectedItems(testSelectedItems);
+      setTimeout(function() {
+        assert.strictEqual(basic._selectedItems, expectedItem);
+        assert.isOk(basic._showActiveFilterLabels);
+        done();
+      }, 50);
+    });
+
+    it('should set _showActiveFilterLabels to true when selectedItems are passed', function() {
+      var testSelectedItems = [{
+        name: 'dummy',
+        key: 'dummy key',
+        items: [{
+          key: 'foo',
+          val: 'bar',
+          selected: false
+        }]
+      }];
+
+      basic._showActiveFilterLabels = true;
+      basic._setSelectedItems(testSelectedItems);
+      setTimeout(function() {
+        assert.isNotOk(basic._showActiveFilterLabels);
+        done();
+      }, 50);
+    });
+
+    it('should set _showActiveFilterLabels to false when selectedItems are not passed', function() {
+      basic._showActiveFilterLabels = true;
+      basic._setSelectedItems([]);
+      setTimeout(function() {
+        assert.isNotOk(basic._showActiveFilterLabels);
+        done();
+      }, 50);
+    });
+  });
+
+  describe('_toggleShowFilters', function() {
+    var basic;
+    beforeEach(function() {
+      basic = fixture('basic');
+    });
+    afterEach(function() {
+      basic = '';
+    });
+
+		it('should set _showSortOptions and _showFilters to false', function() {
+			basic._showSortOptions = true;
+			basic._showFilters = true;
+			basic._toggleShowFilters();
+			assert.isNotOk(basic._showSortOptions);
+			assert.isNotOk(basic._showFilters);
+    });
+
+    it('should set _showSortOptions to false and _showFilters to true', function() {
+      basic._showSortOptions = true;
+      basic._showFilters = false;
+      basic._toggleShowFilters();
+      assert.isNotOk(basic._showSortOptions);
+      assert.isOk(basic._showFilters);
+    });
+  });
+
+  describe('toggleSelectedView', function() {
+    var basic;
+    beforeEach(function() {
+      basic = fixture('basic');
+    });
+    afterEach(function() {
+      basic = '';
+    });
+
+    it('should set _selectedView to proper value', function() {
+      basic.addEventListener('bah-sort-and-filter-view-change', function(event) {
+        assert.equal(event.detail.selectedView, 'bar');
+      });
+      basic.summaryView = 'foo';
+      basic.detailedView = 'bar';
+      basic.selectedView = 'foo';
+      basic.toggleSelectedView();
+      assert.equal(basic.selectedView, 'bar');
+    });
+
+    it('should set _selectedView to proper value', function() {
+      basic.addEventListener('bah-sort-and-filter-view-change', function(event) {
+        assert.equal(event.detail.selectedView, 'foo');
+      });
+      basic.summaryView = 'foo';
+      basic.detailedView = 'bar';
+      basic.selectedView = 'bar';
+      basic.toggleSelectedView();
+      assert.equal(basic.selectedView, 'foo');
+    });
+
+    // For future reference, when writing tests. These were pulled from bah-free-form-filter component tests before it was
+    // integrated into bah-filter directly.
+    /* PULLED FROM BAH-FREE-FORM-FILTER TEST
+    describe('_freeFormFilterChanged()', function () {
+      var basic;
+
+      var fakeTimeRange = {
+        from: "2017-05-04T01:00:00.000Z",
+        to: "2017-05-11T14:00:00.000Z"
+      };
+
+      beforeEach(function () {
+        basic = fixture('basic');
+      });
+
+      afterEach(function () {
+        basic = '';
+      });
+
+      // test: fire px-datetime-range-submitted and expect bah-free-form-filter-changed event
+      it('1 - should fire bah-free-form-filter-changed with empty details when _freeFormFilterChanged is called', function (done) {
+        basic.addEventListener("bah-free-form-filter-changed", function (event) {
+          assert.isNotNull(event);
+          assert.equal(event.detail.name, basic._componentName);
+          assert.equal(event.detail.searchText, basic.searchText);
+          assert.equal(basic.searchText, '');
+          assert.equal(event.detail.timeRange, basic.timeRange);
+          // TODO: check timeRange for default value (last 7 days)
+          done();
+        });
+
+        // call function directly, with empty details
+        basic._freeFormFilterChanged();
+      });
+
+      it('2 - should fire bah-free-form-filter-changed with details when text is entered', function (done) {
+        basic.addEventListener("bah-free-form-filter-changed", function (event) {
+          assert.isNotNull(event);
+          assert.equal(event.detail.name, basic._componentName);
+          assert.equal(event.detail.searchText, "test");
+          assert.equal(event.detail.timeRange, basic.timeRange);
+          done();
+        });
+
+        // set text
+        basic.searchText = 'test';
+      });
+
+      it('3 - should fire bah-free-form-filter-changed with details when date is changed', function (done) {
+        basic.addEventListener("bah-free-form-filter-changed", function (event) {
+          assert.isNotNull(event);
+          assert.equal(event.detail.name, basic._componentName);
+          assert.equal(event.detail.searchText, basic.searchText);
+          assert.equal(basic.searchText, '');
+          assert.equal(event.detail.timeRange, fakeTimeRange);
+          done()
+        });
+
+        // simulate an event fired from px-rangepicker
+        basic.timeRange = fakeTimeRange;
+      });
+    });*/
+  });
+</script>
+</body>
+</html>

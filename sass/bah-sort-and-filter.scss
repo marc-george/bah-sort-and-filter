@@ -1,0 +1,141 @@
+@import "px-typography-design/_base.typography.scss";
+@import "px-headings-design/_base.headings.scss";
+@import 'px-actionable-text-icons-design/_objects.actionable.scss';
+
+$inuit-enable-btn--bare: true;
+$inuit-enable-btn--full: true;
+$inuit-enable-btn--primary: true;
+$inuit-enable-btn--icon: true;
+$inuit-enable-btn--large: true;
+$inuit-enable-btn--tertiary: true;
+@import 'px-buttons-design/_objects.buttons.scss';
+
+$inuit-enable-layout--center : true;
+$inuit-enable-layout--middle: true;
+$inuit-enable-layout--tiny: true;
+$inuit-enable-layout--right: true;
+@import 'px-layout-design/_objects.layout.scss';
+@import "px-flexbox-design/_base.flexbox.scss";
+@import "px-colors-design/_settings.colors.scss";
+
+$inuit-enable-margins: true;
+$inuit-enable-paddings: true;
+$inuit-enable-margins--none: true;
+$inuit-enable-margins--tiny: true;
+$inuit-enable-margins--small: true;
+$inuit-enable-margins--large: true;
+$inuit-enable-margins--huge: true;
+$inuit-enable-margins--negative: true;
+$inuit-enable-margins--negative-tiny: true;
+$inuit-enable-margins--negative-small: true;
+$inuit-enable-margins--negative-large: true;
+$inuit-enable-margins--negative-huge: true;
+$inuit-enable-paddings--none: true;
+$inuit-enable-paddings--tiny: true;
+$inuit-enable-paddings--small: true;
+$inuit-enable-paddings--large: true;
+$inuit-enable-paddings--huge: true;
+@import 'px-spacing-design/_trumps.spacing.scss';
+
+@import "px-widths-responsive-design/_trumps.widths-responsive.scss";
+
+.actionable-filter:hover {
+  cursor: pointer;
+  color: $select-blue-hover
+}
+
+.actionbar-text {
+  cursor: pointer;
+}
+
+.active-filter-span {
+  cursor: pointer;
+  margin-left: .5em;
+}
+
+.active-filter-span-clicked {
+  background-color: $white;
+  border-left: 1px solid $grey5;
+}
+
+.container-fluid {
+  background-color: $grey1;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.div-white-background {
+  background-color: $white;
+}
+
+.text-color--grey {
+  color: $grey6;
+}
+
+.font-size-15 {
+  font-size: 15px;
+}
+
+.user-option:hover {
+  background-color: $white;
+  cursor: pointer;
+}
+
+.selected-view-icon {
+  --iron-icon-height: 1.6em;
+  --iron-icon-width: 1.6rem;
+}
+
+.wrapper-icon {
+  --iron-icon-height: 1.6em;
+  --iron-icon-width: 1.6rem;
+}
+
+#view-type-toggle {
+  cursor: pointer;
+}
+
+iron-icon {
+    --iron-icon-height: 15px;
+    --iron-icon-width: 15px;
+    vertical-align: middle;
+}
+
+[class*='col-'] {
+  border: 0;
+  background-color: $gray1;
+}
+
+
+.row {
+  margin: 0;
+  background-color: $white;
+}
+
+.div--align-content-center {
+  text-align: center;
+  align-content: center;
+}
+
+.div--border {
+  border: 1px solid $gray6;
+  background-color: $gray1;
+}
+
+.div--left-border {
+  border-left: 1px solid $gray5;
+}
+
+.div--right-border {
+  border-right: 1px solid $gray5;
+}
+
+// used to make column border heights match the row height if a single 
+// column's content wraps and makes the height larger
+.equal {
+  display: flex;
+  display: -webkit-flex;
+  flex-wrap: wrap;
+}

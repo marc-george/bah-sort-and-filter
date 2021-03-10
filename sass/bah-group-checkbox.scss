@@ -1,0 +1,39 @@
+$inuit-enable-input--search: true;
+$inuit-enable-input--small: true;
+$inuit-enable-layout--middle: true;
+$inuit-enable-layout--center: true;
+$inuit-enable-margins--huge: true;
+$inuit-enable-margins--large: true;
+$inuit-enable-margins--small: true;
+$inuit-enable-paddings--huge: true;
+$inuit-enable-paddings--small: true;
+
+@import "px-colors-design/_settings.colors.scss";
+@import "px-headings-design/_base.headings.scss";
+@import "px-typography-design/_base.typography.scss";
+@import 'px-forms-design/_base.forms.scss';
+@import "px-flexbox-design/_base.flexbox.scss";
+@import 'px-layout-design/_objects.layout.scss';
+@import "px-widths-design/_trumps.widths.scss";
+@import 'px-spacing-design/_trumps.spacing.scss';
+
+.group-cb {
+  margin-right: 5px;
+}
+
+.group-checkbox-label {
+  margin-left: 5px;
+  font-size: 15px;
+}
+
+.group-checkbox-title {
+  font-size: 15px;
+}
+
+.selection-group {
+  border-radius: 4px;
+  border: 1px solid $gray6;
+  background-color: $gray1;
+  height: 12rem;
+  overflow: scroll;
+}

@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+				content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+	<title>bah-group-checkbox test</title>
+
+	<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="../../web-component-tester/browser.js"></script>
+
+	<link rel="import" href="../bah-group-checkbox.html">
+</head>
+<body>
+<test-fixture id="basic">
+	<template>
+		<bah-group-checkbox></bah-group-checkbox>
+	</template>
+</test-fixture>
+
+<script>
+  describe('bah-group-checkbox', function() {
+    it('should instantiate the element', function() {
+      var element = fixture('basic');
+      assert.equal(element.is, 'bah-group-checkbox');
+    });
+
+    describe('_checkBoxChanged', function() {
+      var basic;
+
+      beforeEach(function() {
+        basic = fixture('basic');
+      });
+      afterEach(function() {
+        basic = '';
+      });
+
+      it('should set selected property to false if the checkbox for the item passed is changed', function() {
+        var event = {
+          target: {
+            attributes: {
+              'display-value': {
+                value: 'dummy val'
+              }
+            }
+          }
+        };
+        var items = [
+          {
+            key: 'dummy key',
+            val: 'dummy val',
+            selected: false
+          }
+        ];
+        basic.items = items;
+        basic._checkBoxChanged(event);
+        assert.isOk(basic.items[0].selected)
+      });
+
+      it('should set selected property to true if the checkbox for the item passed is changed', function() {
+        var event = {
+          target: {
+            attributes: {
+              'display-value': {
+                value: 'dummy val'
+              }
+            }
+          }
+        };
+        var items = [
+          {
+            key: 'dummy key',
+            val: 'dummy val',
+            selected: true
+          }
+        ];
+        basic.items = items;
+        basic._checkBoxChanged(event);
+        assert.isNotOk(basic.items[0].selected);
+      });
+    });
+
+    describe('_radioBtnChanged', function() {
+      var basic;
+
+      beforeEach(function() {
+        basic = fixture('basic');
+      });
+      afterEach(function() {
+        basic = '';
+      });
+
+      it('should set selected property to proper value if the radio button for the item passed is selected/unselected', function() {
+        var event = {
+          target: {
+            attributes: {
+              'display-value': {
+                value: 'dummy val'
+              }
+            }
+          }
+        };
+        var items = [
+          {
+            key: 'dummy key',
+            val: 'dummy val',
+            selected: false
+          }
+        ];
+        basic.items = items;
+        basic._radioBtnChanged(event);
+        assert.isOk(basic.items[0].selected)
+      });
+
+      it('should set selected property to true if the checkbox for the item passed is changed', function() {
+        var event = {
+          target: {
+            attributes: {
+              'display-value': {
+                value: 'dummy val'
+              }
+            }
+          }
+        };
+        var items = [
+          {
+            key: 'dummy key',
+            val: 'dummy val',
+            selected: false
+          },
+          {
+            key: 'dummy key 2',
+            val: 'dummy val 2',
+            selected: true
+          }
+        ];
+        basic.items = items;
+        basic._radioBtnChanged(event);
+        assert.isOk(basic.items[0].selected);
+        assert.isNotOk(basic.items[1].selected);
+      });
+    });
+
+    describe('_handleItemsChange and _sortItemsWithSelectedProperty', function() {
+      var basic;
+
+      beforeEach(function() {
+        basic = fixture('basic');
+      });
+      afterEach(function() {
+        basic = '';
+      });
+
+      it('should set _displayItems property and sort it', function() {
+        var items = [
+          {
+            key: '1',
+            val: 'value 1',
+            selected: false
+          },
+          {
+            key: '2',
+            val: 'value 2',
+            selected: true
+          },
+          {
+            key: '3',
+            val: 'value 3',
+            selected: false
+          }
+        ];
+
+        basic.items = items;
+        basic._handleItemsChange();
+
+        assert.strictEqual(basic._displayItems[0].key, '2');
+        assert.strictEqual(basic._displayItems[1].key, '1');
+        assert.strictEqual(basic._displayItems[2].key, '3');
+      });
+    });
+
+    describe('_handleSearchInputChange', function() {
+      var basic;
+
+      beforeEach(function() {
+        basic = fixture('basic');
+      });
+      afterEach(function() {
+        basic = '';
+      });
+
+      it('should fuzzy search from items val based on _searchInput passed', function() {
+        var items = [
+          {
+            key: '1',
+            val: 'car',
+            selected: false
+          },
+          {
+            key: '2',
+            val: 'rar',
+            selected: false
+          },
+          {
+            key: '3',
+            val: 'foo',
+            selected: false
+          },
+          {
+            key: '4',
+            val: 'bar',
+            selected: false
+          }
+        ];
+
+        basic.items = items;
+        basic._searchInput = 'foo';
+        basic._handleSearchInputChange();
+
+        assert.strictEqual(basic._displayItems[0].key, '3');
+      });
+
+      it('should fuzzy search from items val based on _searchInput passed', function() {
+        var items = [
+          {
+            key: '1',
+            val: 'car',
+            selected: false
+          },
+          {
+            key: '2',
+            val: 'rar',
+            selected: false
+          },
+          {
+            key: '3',
+            val: 'foo',
+            selected: false
+          },
+          {
+            key: '4',
+            val: 'bar',
+            selected: true
+          }
+        ];
+
+        basic.items = items;
+        basic._searchInput = '';
+        basic._handleSearchInputChange();
+
+        assert.strictEqual(basic._displayItems[0].key, '4');
+      });
+    });
+  });
+</script>
+</body>
+</html>

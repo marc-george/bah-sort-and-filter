@@ -1,0 +1,78 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../common-imports/fuse.html">
+<link rel="import" href="../common-imports/lodash.html">
+
+<link rel="import" href="css/bah-group-checkbox-styles.html">
+
+<!--
+`bah-group-checkbox`
+Child component displaying group of filter options provided as input (Internal use)
+
+@demo demo/index.html 
+-->
+<dom-module id="bah-group-checkbox">
+	<template>
+		<style include="bah-group-checkbox-styles"></style>
+		<div class="u-mr++ u-pr+">
+
+			<!-- Title -->
+			<div class="u-1/1 u-mb-">
+				<span class="group-checkbox-title weight--normal">{{title}}</span>
+			</div>
+
+			<!-- Search boxes-->
+			<div class="u-1/1 u-p- selection-group">
+				<template is="dom-if" if="{{showSearch}}">
+					<div class="u-mr-- u-ml-- u-mb-">
+						<input class="text-input input--search"
+									 type="text"
+									 value="{{_searchInput::input}}">
+					</div>
+				</template>
+
+				<!-- Checkboxes-->
+				<template is="dom-if" if="{{!singleSelection}}">
+					<div class="zeta weight--normal">
+						<template is="dom-repeat"
+											items="{{_displayItems}}"
+											as="type">
+							<div class="u-mt-- u-mb--">
+								<label for="checkbox-{{type.val}}" class="label--inline group-checkbox-label">
+									<input
+											id="checkbox-{{type.val}}"
+											class="group-cb"
+											type="checkbox"
+											on-change="_checkBoxChanged"
+											display-value$="{{type.val}}"
+											checked="{{type.selected}}">
+									</input>{{type.val}}
+								</label>
+							</div>
+						</template>
+					</div>
+				</template>
+
+				<!--Single selection Radio Buttons-->
+				<template is="dom-if" if="{{singleSelection}}">
+					<div class="zeta weight--normal">
+						<template is="dom-repeat"
+											items="{{_displayItems}}"
+											as="type">
+							<div class="u-mt- u-mb-">
+								<input id="radio-{{type.val}}"
+											 name="{{title}}"
+											 checked="{{type.selected}}"
+											 on-change="_radioBtnChanged"
+											 display-value$="{{type.val}}"
+											 type="radio" >
+								<label class="label--inline group-checkbox-label" for="radio-{{type.val}}">{{type.val}}</label>
+							</div>
+						</template>
+					</div>
+				</template>
+			</div>
+		</div>
+	</template>
+
+	<script type="text/javascript" src="js/bah-group-checkbox.js"></script>
+</dom-module>

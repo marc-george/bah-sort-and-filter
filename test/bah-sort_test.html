@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+				content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+	<title>bah-sort test</title>
+
+	<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="../../web-component-tester/browser.js"></script>
+
+	<link rel="import" href="../bah-sort.html">
+</head>
+<body>
+<test-fixture id="basic">
+	<template>
+		<bah-sort></bah-sort>
+	</template>
+</test-fixture>
+
+<script>
+  describe('bah-sort', function() {
+    it('should instantiate the element', function() {
+      var element = fixture('basic');
+      assert.equal(element.is, 'bah-sort');
+    });
+
+    describe('_sortSelectionChanged', function() {
+      var basic;
+
+      beforeEach(function() {
+        basic = fixture('basic');
+      });
+
+      afterEach(function() {
+        basic = '';
+      });
+
+      it('should fire an event when selected option is true and set selectedKey and selectedVal properly', function(done) {
+        basic.options = [{key: '1', val: 'Newest First', selected: true}];
+        var event =
+          {
+            'model': {
+              '__data__': {
+                'item': {
+                  'key': '1',
+                  'val': 'Newest First',
+									'selected': true
+                }
+              }
+            }
+          };
+        basic.addEventListener('bah-sort-changed', function(event) {
+          assert.isNotNull(event);
+          assert.strictEqual(event.detail.val, 'Newest First');
+          assert.strictEqual(event.detail.key, '1');
+          assert.strictEqual(event.detail.name, 'bah-sort');
+          assert.strictEqual(basic.selectedKey, '1');
+          assert.strictEqual(basic.selectedVal, 'Newest First');
+          done();
+        });
+
+        basic._sortSelectionChanged(event);
+      });
+
+      it('should fire an event when selection option is false and set selectedKey and selectedVal properly', function(done) {
+        basic.options = [{key: '1', val: 'Newest First', selected: false}];
+        var event =
+          {
+            'model': {
+              '__data__': {
+                'item': {
+                  'key': '2',
+                  'val': 'Oldest First',
+                  'selected': true
+                }
+              }
+            }
+          };
+        basic.addEventListener('bah-sort-changed', function(event) {
+          assert.isNotNull(event);
+          assert.strictEqual(event.detail.val, 'Oldest First');
+          assert.strictEqual(event.detail.key, '2');
+          assert.strictEqual(event.detail.name, 'bah-sort');
+          assert.strictEqual(basic.selectedKey, '2');
+          assert.strictEqual(basic.selectedVal, 'Oldest First');
+          done();
+        });
+
+        basic._sortSelectionChanged(event);
+      });
+    });
+
+    describe('_sortSelectionChanged', function() {
+      var basic;
+
+      beforeEach(function() {
+        basic = fixture('basic');
+      });
+
+      afterEach(function() {
+        basic = '';
+      });
+
+      it('should return proper style classes when item selected is passed as true', function() {
+				var item = {
+				  selected: true
+				};
+				assert.strictEqual(basic._getStyleForItem(item), 'sort-option-selected font-size-15');
+      });
+
+      it('should return proper style classes when item selected is passed as false', function() {
+        var item = {
+          selected: false
+        };
+        assert.strictEqual(basic._getStyleForItem(item), 'font-size-15');
+      });
+    });
+  });
+</script>
+</body>
+</html>

@@ -20,7 +20,7 @@
     "px-actionable-text-icons-design": "^1.1.8",
     "px-headings-design": "^0.3.5",
     "px-widths-design": "^0.3.21",
-    "common-imports": "https://712884f4d7f228dea7ac7bd116faa296932a7f1c:x-oauth-basic@github.build.ge.com/DET-Software/common-imports.git#0.0.6",
+    "common-imports": "https://github.com/marc-george/common-imports.git#main",
     "px-rangepicker": "^1.3.10"
   },
   "devDependencies": {
